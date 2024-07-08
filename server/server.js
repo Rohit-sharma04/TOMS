@@ -32,7 +32,8 @@ app.use(cookieParser());
 // Configure CORS middleware with credentials:true to allow cookies in cross-origin requests
 app.use(cors({
     credentials: true,
-    origin: [process.env.CLIENT_URL]
+    // origin: [process.env.CLIENT_URL]
+    origin: "*"
 }))
 
 app.post('/webhook', express.raw({ type: 'application/json' }), handleStripeWebhookEvent);
