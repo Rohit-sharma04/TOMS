@@ -80,7 +80,14 @@ export const loginController = async (req, res) => {
         );
         const maxAgeInMilliseconds = 7*24*60*60*1000; // 7 days in milliseconds
        
-        res.cookie('token', token, { httpOnly: false });
+        // res.cookie('token', token, { httpOnly: false , sameSite: 'None'});
+        res.cookie('token', token, {
+            httpOnly: false, 
+            maxAge: maxAgeInMilliseconds,
+            sameSite: 'None', // Important for cross-site cookies
+            secure: true // Ensure cookies are only sent over HTTPS
+        });
+        
         res.status(200).json({ message: "Login successful",  success: true, role });
 
     } catch(error) {
