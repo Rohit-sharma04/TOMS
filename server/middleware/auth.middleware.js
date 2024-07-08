@@ -4,7 +4,7 @@ export const authMiddleware = (req, res, next) => {
     try {
         // Extract the token from the cookies
         const token = req.cookies.token;
-
+        console.log("token",token)
         if (!token) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
