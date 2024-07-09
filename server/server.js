@@ -32,8 +32,7 @@ app.use(cookieParser());
 // Configure CORS middleware with credentials:true to allow cookies in cross-origin requests
 app.use(cors({
     credentials: true,
-    // origin: [process.env.CLIENT_URL]
-    origin: "*"
+    origin: [process.env.CLIENT_URL,'https://toms-frontend.netlify.app','https://toms.onrender.com','  http://localhost:5173']
 }))
 
 app.post('/webhook', express.raw({ type: 'application/json' }), handleStripeWebhookEvent);
