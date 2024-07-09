@@ -84,7 +84,7 @@ export const loginController = async (req, res) => {
         res.cookie('token', token, {
             httpOnly: false, 
             maxAge: maxAgeInMilliseconds,
-            sameSite: 'none', // Important for cross-site cookies
+            sameSite: 'lax', // Important for cross-site cookies
             secure: process.env.NODE_MODE === 'production' // Ensure cookies are only sent over HTTPS
         });
         
