@@ -82,10 +82,10 @@ export const loginController = async (req, res) => {
        
         // res.cookie('token', token, { httpOnly: false , sameSite: 'None'});
         res.cookie('token', token, {
-            httpOnly: false, 
+            httpOnly: true, 
             maxAge: maxAgeInMilliseconds,
-            sameSite: 'lax', // Important for cross-site cookies
-            // secure: process.env.NODE_MODE === 'production' // Ensure cookies are only sent over HTTPS
+            sameSite: 'None', // Important for cross-site cookies
+            secure: process.env.NODE_MODE === 'production' // Ensure cookies are only sent over HTTPS
         });
         
         res.status(200).json({ message: "Login successful",  success: true, role });
