@@ -10,6 +10,7 @@ export const createCheckoutSessionController = async (req, res) => {
         console.log("create session", challanId)
         const challan = await challanModel.findById(challanId);
         console.log("challan", challan)
+        console.log("CLIENT_URL",process.env.CLIENT_URL)
         if (!challan) {
             return res.status(404).json({ success: false, message: 'Challan not found' });
         }
