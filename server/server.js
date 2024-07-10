@@ -30,7 +30,7 @@ const app = express();
 // Multer is a  middleware for handling multipart/form-data
 const upload = multer();
 
-app.use(express.json());
+
 app.use(cookieParser());
 // Configure CORS middleware with credentials:true to allow cookies in cross-origin requests
 app.use(cors({
@@ -39,6 +39,8 @@ app.use(cors({
 }))
 
 app.post('/webhook', express.raw({ type: 'application/json' }), handleStripeWebhookEvent);
+
+app.use(express.json());
 
 app.use("/api/user", upload.any(), userRoute);
 app.use("/api/officer", upload.any(), officerRoute);
