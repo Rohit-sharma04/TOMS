@@ -44,14 +44,17 @@ export const getAllComplaintsController = async (req, res) => {
 
 export const updateComplaintController = async (req, res) => {
     try {
+        console.log("updateComplaintController")
         const updatedData = req.body;
         const officerEmail = req.body.assignedOfficerEmail;
-
+        console.log("updatedData",updatedData)
+        console.log("officerEmail",officerEmail)
            // Find the officer by email
         const officer=await officerModel.findOne({email:officerEmail})
         if (!officer) {
             return res.status(404).json({ message: 'Officer not found', success: false });
         }
+        console.log('officer',officer);
 
         // Update the complaint using Mongoose
         const updatedComplaint = await complaintModel.findByIdAndUpdate(
@@ -62,6 +65,7 @@ export const updateComplaintController = async (req, res) => {
             },
             { new: true }
         );
+        console.log("updatedComplaint",updatedComplaint)
 
         // Check if the complaint was found and updated
         if (!updatedComplaint) {
