@@ -44,46 +44,54 @@ export const getAllComplaintsController = async (req, res) => {
 
 export const updateComplaintController = async (req, res) => {
     try {
-        console.log("updateComplaintController")
         const updatedData = req.body;
         const officerEmail = req.body.assignedOfficerEmail;
-        console.log("updatedData",updatedData)
-        console.log("officerEmail",officerEmail)
-           // Find the officer by email
-        const officer=await officerModel.findOne({email:officerEmail})
-        if (!officer) {
-            return res.status(404).json({ message: 'Officer not found', success: false });
-        }
-        console.log('officer',officer);
+        
+        let updatedComplaint;
 
-        // Update the complaint using Mongoose
-        const updatedComplaint = await complaintModel.findByIdAndUpdate(
-            updatedData._id,
-            {   
-                status: req.body.status,
-                assignedTo: officer._id
-            },
-            { new: true }
-        );
-        console.log("updatedComplaint",updatedComplaint)
+        if (officerEmail) {
+            // Find the officer by email
+            const officer = await officerModel.findOne({ email: officerEmail });
+            if (!officer) {
+                return res.status(200).json({ message: 'Officer not found', success: false });
+            }
+            // Update the complaint using Mongoose with assigned officer
+            updatedComplaint = await complaintModel.findByIdAndUpdate(
+                updatedData._id,
+                {
+                    status: req.body.status,
+                    assignedTo: officer._id
+                },
+                { new: true }
+            );
+
+            // Add the complaint to the officer's complaint list if not already present
+            if (!officer.complaint.includes(updatedData._id)) {
+                officer.complaint.push(updatedData._id);
+                await officer.save();
+            }
+        } else {
+            // Update only the complaint status if no officer email is provided
+            updatedComplaint = await complaintModel.findByIdAndUpdate(
+                updatedData._id,
+                { status: req.body.status },
+                { new: true }
+            );
+        }
 
         // Check if the complaint was found and updated
         if (!updatedComplaint) {
-            return res.status(404).json({ message: 'Complaint not found', success: false });
-        }
-        // Add the complaint to the officer's complaint list if not already present
-        if (!officer.complaint.includes(updatedData._id)) {
-            officer.complaint.push(updatedData._id);
-            await officer.save();
+            return res.status(200).json({ message: 'Complaint not found', success: false });
         }
 
         res.status(200).json({ message: 'Complaint updated successfully', data: updatedComplaint, success: true });
-  
+
     } catch (error) {
         console.error('Error updating complaint:', error);
         res.status(500).json({ message: `Error updating complaint: ${error.message}`, success: false });
     }
 }
+
 
 export const getAllOfficersController = async (req, res) => {
     try {
