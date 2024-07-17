@@ -6,7 +6,8 @@ import { router } from './router.jsx'
 import Navbar from './Components/Navbar.jsx'
 import axios from 'axios'
 import { UserProvider } from './Context/UserContext.jsx'
-
+import {ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 // `withCredentials` indicates whether or not cross-site Access-Control requests
@@ -18,6 +19,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <UserProvider>
       <Navbar />
       <RouterProvider router={router} />
+      <ToastContainer 
+        position="top-center"
+      />
     </UserProvider>
   </React.StrictMode>,
 )

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from 'axios'
 import { useContext } from 'react';
 import { UserContext } from './Context/UserContext';
+import { toast } from 'react-toastify';
 
 const Login = () => {
 
@@ -17,9 +18,11 @@ const Login = () => {
         try {
             console.log(data)
             // const role=data.role;
+            toast.loading("Please wait...");
             const res = await axios.post(`api/auth/login`, data);
             if (res.data.success) {
-                alert("Login Successfully!");
+                toast.dismiss();
+                toast.success("Login Successfully!");
 
                     let userData = await axios.get("api/auth/getuserData");
                     console.log("data", userData.data);
@@ -28,22 +31,24 @@ const Login = () => {
                         setName(userData.data.data.name);
                         setEmail(userData.data.data.email);
                     } else {
-                        alert(userData.data.message);
+                        toast.info(userData.data.message);
                     }
                 
                 navigate(`/${res.data.role}/dashboard`);
             } else {
+                toast.dismiss();
                 if (res.status === 404) {
-                    alert("User not found");
+                    toast.info("User not found");
                 } else {
-                    alert(res.data.message);
+                    toast.info(res.data.message);
                 }
-                alert(res.data.message);
+                toast.info(res.data.message);
             }
             console.log(res)
         } catch (error) {
+            toast.dismiss();
             console.log(error);
-            alert(error.response.data.message);
+            toast.error(error.response.data.message);
         }
 
     }

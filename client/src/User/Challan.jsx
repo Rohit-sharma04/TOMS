@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react"
 import Carousel from "../Components/Carousel";
+import { toast } from "react-toastify";
 
 export const Challan = () => {
     const [challan, setChallan] = useState();
@@ -15,7 +16,7 @@ export const Challan = () => {
             if (res.data.success) {
                 setChallan(res.data.data);
             } else {
-                alert(res.data.message);
+                toast.info(res.data.message);
             }
         };
         getData();

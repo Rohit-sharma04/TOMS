@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const ComplaintForm = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -35,10 +36,10 @@ const ComplaintForm = () => {
       console.log("res.data.success", res.data.success)
       
       if (res.data.success) {
-        alert("Form submitted Successfully!");
+        toast.success("Form submitted Successfully!");
         reset();
       } else {
-        alert(res.data.message);
+        toast.info(res.data.message);
       }
       console.log(res)
 

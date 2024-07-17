@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const UserList = () => {
     const [users, setUsers] = useState();
@@ -11,7 +12,7 @@ const UserList = () => {
             if (res.data.success) {
                 setUsers(res.data.data);
             } else {
-                alert(res.data.message);
+                toast.info(res.data.message);
             }
         };
         getData();
@@ -21,11 +22,11 @@ const UserList = () => {
         try {
             const res = await axios.delete(`/api/admin/deleteUser/${userId}`);
             if (res.data.success) {
-                alert('User Deleted Successfully')
+                toast.success('User Deleted Successfully')
                 const updatedUsers = users.filter(user => user._id !== userId);
                 setUsers(updatedUsers);
             } else {
-                alert('Could not Delete User')
+                toast.info('Could not Delete User')
             }
         } catch (error) {
             console.error('Error deleting user:', error);

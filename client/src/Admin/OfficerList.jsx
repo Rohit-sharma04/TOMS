@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const OfficerList = () => {
     const [officers, setOfficers] = useState();
@@ -11,7 +12,7 @@ const OfficerList = () => {
             if (res.data.success) {
                 setOfficers(res.data.data);
             } else {
-                alert(res.data.message);
+                toast.info(res.data.message);
             }
         };
         getData();
@@ -19,15 +20,18 @@ const OfficerList = () => {
 
     const deleteUser = async (officerId) => {
         try {
+            toast.loading("please wait")
             const res = await axios.delete(`/api/admin/deleteOfficer/${officerId}`);
+            toast.dismiss();
             if (res.data.success) {
-                alert('Officer Deleted Successfully')
+                toast.success('Officer Deleted Successfully')
                 const updatedOfficers = officers.filter(officer => officer._id !== officerId);
                 setOfficers(updatedOfficers);
             } else {
-                alert('Could not Delete Officer')
+                toast.info('Could not Delete Officer')
             }
         } catch (error) {
+            toast.dismiss();
             console.error('Error deleting officer:', error);
         }
     }

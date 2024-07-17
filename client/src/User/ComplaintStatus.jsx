@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react"
 import Carousel from "../Components/Carousel";
+import { toast } from "react-toastify";
 
 const ComplaintStatus = () => {
     const [complaints, setComplaints] = useState();
@@ -31,7 +32,7 @@ const ComplaintStatus = () => {
                 console.log(res.data.complaintStatuses)
                 setComplaints(res.data.complaintStatuses);
             } else {
-                alert(res.data.message);
+                toast.info(res.data.message);
             }
         };
         getData();

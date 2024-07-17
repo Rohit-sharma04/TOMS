@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export const UserContext = createContext(null);
 
@@ -18,7 +19,7 @@ export const UserProvider = ({ children }) => {
                 setEmail(userData.data.data.email);
                 setRole(userData.data.data.role);
             } else {
-                alert(userData.data.message);
+                toast.info(userData.data.message);
             }
         }
         getUserData();

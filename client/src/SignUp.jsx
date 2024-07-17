@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useState } from 'react';
 import axios from 'axios'
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
 
@@ -13,17 +14,20 @@ const SignUp = () => {
         try {
             console.log(data)
             // const role=data.role;
+            toast.loading("Please wait...");
             const res = await axios.post(`api/auth/signup`, data);
             if (res.data.success) {
-                alert("Register Successfully!");
+                toast.dismiss();
+                toast.success("Register Successfully!");
                 navigate("/login");
             } else {
-                alert(res.data.message);
+                toast.dismiss();
+                toast.info(res.data.message);
             }
             console.log(res)
         } catch (error) {
             console.log(error);
-            alert("Something Went Wrong");
+            toast.error("Something Went Wrong");
         }
 
     }

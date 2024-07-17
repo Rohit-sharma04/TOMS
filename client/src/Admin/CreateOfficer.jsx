@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import axios from 'axios'
+import { toast } from "react-toastify";
 
 const CreateOfficer = () => {
 
@@ -8,17 +9,20 @@ const CreateOfficer = () => {
     const handleFinish = async (data) => {
         try {
             console.log(data)
+            toast.loading('please wait')
             const res = await axios.post(`api/admin/createOfficer`, data);
+            toast.dismiss();
             if (res.data.success) {
-                alert("Account Registered Successfully!");
+                toast.success("Account Registered Successfully!");
                 reset();
             } else {
-                alert(res.data.message);
+                toast.info(res.data.message);
             }
             console.log(res)
         } catch (error) {
+            toast.dismiss();
             console.log(error);
-            alert("Something Went Wrong");
+            toast.error("Something Went Wrong");
         }
 
     }

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Carousel from "../Components/Carousel";
 import downArrow from "../assets/double-down-arrow.svg";
+import { toast } from "react-toastify";
 
 const AssignedComplaints = () => {
     const [complaints, setComplaints] = useState([]);
@@ -42,7 +43,7 @@ const AssignedComplaints = () => {
             if (res.data.success) {
                 setChallanDetails(res.data.data);
             } else {
-                alert(res.data.message);
+                toast.info(res.data.message);
             }
         } catch (error) {
             console.error(`Error fetching challan details: ${error}`);
@@ -76,10 +77,10 @@ const AssignedComplaints = () => {
             ]);
 
             if (complaintRes.data.success && challanRes.data.success) {
-                alert('Complaint and Challan updated successfully');
+                toast.success('Complaint and Challan updated successfully');
                 getData();
             } else {
-                alert('Error updating complaint or challan');
+                toast.error('Error updating complaint or challan');
             }
         } catch (error) {
             console.error(`Error updating complaint or challan: ${error}`);
@@ -92,7 +93,7 @@ const AssignedComplaints = () => {
             if (res.data.success) {
                 setComplaints(res.data.data);
             } else {
-                alert(res.data.message);
+                toast.info(res.data.message);
             }
         } catch (error) {
             console.error(`Error fetching complaints: ${error}`);

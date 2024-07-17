@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react"
 import Carousel from "../Components/Carousel";
 import downArrow from "../assets/double-down-arrow.svg"
+import { toast } from "react-toastify";
 const Complaint = () => {
 
     const [complaints, setComplaints] = useState();
@@ -44,13 +45,14 @@ const Complaint = () => {
             let res = await axios.put("api/admin/updateComplaint", updatedData);
             console.log("data", res.data);
             if (res.data.success) {
-                alert('Complaint updated successfully');
+                toast.success('Complaint updated successfully');
                 getData();
             } else {
-                alert(res.data.message);
+                toast.info(res.data.message);
             }
         } catch (error) {
             console.log(`Error : ${error}`)
+            toast.error(`Error : ${error}`)
         }
     }
     
@@ -61,7 +63,7 @@ const Complaint = () => {
             console.log("complaints data",res.data.data)
             setComplaints(res.data.data);
         } else {
-            alert(res.data.message);
+            toast.info(res.data.message);
         }
     };
     useEffect(() => {
